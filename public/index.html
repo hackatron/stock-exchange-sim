@@ -1,0 +1,32 @@
+<style>
+  body { font-family: monospace; }
+  input { border: 1px solid #cccccc; font-family: monospace; margin: 0; }
+</style>
+
+<h1>Stock Exchange Sim</h1>
+
+<p>Stock Exchange</p>
+<ul>
+  <li><a href="/market">Market</a></li>
+</ul>
+
+<p>Buy stocks</p>
+<form action="/buy" method="post" enctype="application/json">
+  <input type="text" name="stock_symbol" value="STOCK">
+  <input type="text" name="quantity" value="100">
+  <input type="text" name="price" value="100">
+  <input type="submit" name="action" value="Buy">
+</form>
+
+<p>Sell stocks</p>
+<form action="/sell" method="post">
+  <input type="text" name="stock_symbol" value="STOCK">
+  <input type="text" name="quantity" value="100">
+  <input type="text" name="price" value="100">
+  <input type="submit" name="action" value="Sell">
+</form>
+
+<p>Debug</p>
+<ul>
+  <li><a href="/all">DCell directory info</a></li>
+</ul>

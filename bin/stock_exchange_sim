@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+begin
+  require 'stock_exchange_sim'
+rescue LoadError
+  path = File.expand_path '../../lib', __FILE__
+  $:.unshift(path) if File.directory?(path) && !$:.include?(path)
+  require 'stock_exchange_sim'
+end
+
+DCell.start id: 'sim', addr: 'tcp://127.0.0.1:9001'
+
+StockExchangeSim::Market.supervise_as :market
+StockExchangeSim::Broker.supervise_as :broker
+
+puts 'Actors are ready to play...'
+sleep
