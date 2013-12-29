@@ -1,3 +1,2 @@
 require './lib/web_api'
-
-run WebApi.new
+run WebApi
