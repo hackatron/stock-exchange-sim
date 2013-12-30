@@ -1,7 +1,5 @@
-<style>
-  body { font-family: monospace; }
-  input { border: 1px solid #cccccc; font-family: monospace; margin: 0; }
-</style>
+<title>Stock Exchange Sim</title>
+<link rel="stylesheet" href="/style.css">
 
 <h1>Stock Exchange Sim</h1>
 
@@ -10,23 +8,50 @@
   <li><a href="/market">Market</a></li>
 </ul>
 
-<p>Buy stocks</p>
-<form action="/buy" method="post" enctype="application/json">
+<p>Place order</p>
+<form action="/orders" method="post" enctype="application/json">
+  <select name="order_type">
+    <option value="buy">Buy</option>
+    <option value="sell">Sell</option>
+  </select>
   <input type="text" name="stock_symbol" value="STOCK">
   <input type="text" name="quantity" value="100">
   <input type="text" name="price" value="100">
-  <input type="submit" name="action" value="Buy">
+  <input type="submit" value="Send">
 </form>
 
-<p>Sell stocks</p>
-<form action="/sell" method="post">
-  <input type="text" name="stock_symbol" value="STOCK">
-  <input type="text" name="quantity" value="100">
-  <input type="text" name="price" value="100">
-  <input type="submit" name="action" value="Sell">
+<p>WebSocket</p>
+<form id="form">
+  <input type="text" id="input" value="send a message"></input>
 </form>
+<div id="msgs"></div>
 
 <p>Debug</p>
 <ul>
   <li><a href="/all">DCell directory info</a></li>
 </ul>
+
+<script type="text/javascript">
+  window.onload = function(){
+    (function(){
+      var show = function(el){
+        return function(msg){ el.innerHTML = msg + '<br />' + el.innerHTML; }
+      }(document.getElementById('msgs'));
+
+      var ws       = new WebSocket('ws://' + window.location.hostname + ':1234');
+      ws.onopen    = function()  { show('websocket opened'); };
+      ws.onclose   = function()  { show('websocket closed'); }
+      ws.onmessage = function(m) { show('websocket message: ' +  m.data); };
+
+      var sender = function(f){
+        var input     = document.getElementById('input');
+        input.onclick = function(){ input.value = "" };
+        f.onsubmit    = function(){
+          ws.send(input.value);
+          input.value = "";
+          return false;
+        }
+      }(document.getElementById('form'));
+    })();
+  }
+</script>

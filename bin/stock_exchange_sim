@@ -11,7 +11,7 @@ end
 DCell.start id: 'sim', addr: 'tcp://127.0.0.1:9001'
 
 StockExchangeSim::Market.supervise_as :market
-StockExchangeSim::Broker.supervise_as :broker
+StockExchangeSim::WebSocketServer.supervise_as :reel
 
 puts 'Actors are ready to play...'
 sleep

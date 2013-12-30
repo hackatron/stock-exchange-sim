@@ -2,6 +2,8 @@ require 'pp'
 
 class StockExchangeSim::Market
   include Celluloid
+  include Celluloid::Notifications
+  include Celluloid::Logger
 
   attr_accessor :stocks, :transactions, :order_book
 
@@ -26,6 +28,8 @@ class StockExchangeSim::Market
   end
 
   def submit_order(order)
+    info "Submit order: #{order}"
+    publish('market_updates', order)
     order_book[order.stock_symbol] ||= StockExchangeSim::OrderBook.new
     order_book[order.stock_symbol].submit_order(order)
     if order_book[order.stock_symbol].match?
