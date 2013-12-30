@@ -7,7 +7,7 @@ A simple stock exchange simulation using DCell.
 1. Start `Market` and `WebSocketServer` actors
 
    ```sh
-   $ ./bin/sim_stockexchange_sim
+   $ ./bin/stock_exchange_sim
    ```
 
 1. Start `WebApi`
