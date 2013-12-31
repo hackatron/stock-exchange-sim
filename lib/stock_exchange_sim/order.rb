@@ -1,11 +1,12 @@
 class StockExchangeSim::Order
-  attr_accessor :stock_symbol, :order_type, :quantity, :price, :time
+  attr_accessor :stock_symbol, :order_type, :quantity, :price, :time, :session_id
 
-  def initialize(stock_symbol, order_type, quantity, price)
-    @stock_symbol = stock_symbol
-    @order_type = order_type
-    @quantity = quantity
-    @price = price
+  def initialize(stock_symbol, order_type, quantity, price, session_id)
+    @stock_symbol = stock_symbol.upcase
+    @order_type = order_type.to_sym
+    @quantity = quantity.to_i
+    @price = price.to_i
+    @session_id = session_id
     @time = Time.now
   end
 
@@ -21,7 +22,7 @@ class StockExchangeSim::Order
   end
 
   def to_s
-    [time, order_type, stock_symbol, price, quantity].join("\t")
+    [session_id, time, order_type.upcase, stock_symbol, price, quantity].join("\t")
   end
 
   def match?(other)

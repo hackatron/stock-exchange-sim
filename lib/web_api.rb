@@ -34,7 +34,7 @@ class WebApi < Sinatra::Base
   end
 
   post '/orders' do
-    if settings.sim_node[:market].send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'])
+    if settings.sim_node[:market].send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'], session.id)
       redirect to('/?ok')
     else
       File.read(File.join(settings.public_folder, 'index.html'))

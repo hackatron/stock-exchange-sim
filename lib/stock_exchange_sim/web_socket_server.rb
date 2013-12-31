@@ -1,3 +1,5 @@
+require 'rack'
+
 class StockExchangeSim::WebSocketServer < Reel::Server
   include Celluloid::Logger
 
@@ -15,7 +17,7 @@ class StockExchangeSim::WebSocketServer < Reel::Server
         # need to detach it from the Reel::Server (in this case, Reel::Server::HTTP)
         connection.detach
 
-        route_websocket request.websocket
+        route_websocket(request.websocket, decode_session(request.headers['Cookie']))
         return
       else
         info "404 Not Found: #{request.path}"
@@ -24,12 +26,18 @@ class StockExchangeSim::WebSocketServer < Reel::Server
     end
   end
 
-  def route_websocket(socket)
+  def route_websocket(socket, session)
     if socket.url == '/'
-      StockExchangeSim::Broker.new(socket)
+      StockExchangeSim::Broker.new(socket, session['session_id'])
     else
       info "Received invalid WebSocket request for: #{socket.url}"
       socket.close
     end
+  end
+
+  def decode_session(cookie)
+    rack_session_encoded = Hash[cookie.split('; ').map { |i| i.split('=') }]['rack.session']
+    rack_session = Rack::Utils.unescape(rack_session_encoded.split('--').first)
+    Rack::Session::Cookie::Base64::Marshal.new.decode(rack_session)
   end
 end
