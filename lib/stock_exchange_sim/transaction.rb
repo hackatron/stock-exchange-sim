@@ -1,4 +1,6 @@
 class StockExchangeSim::Transaction
+  include Celluloid
+
   attr_accessor :buy_order, :sell_order
 
   def initialize(buy_order, sell_order)
@@ -7,6 +9,6 @@ class StockExchangeSim::Transaction
   end
 
   def to_s
-    [buy_order, sell_order].to_s
+    [buy_order, sell_order].join("\t")
   end
 end

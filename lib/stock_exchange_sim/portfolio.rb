@@ -1,6 +1,8 @@
 require 'pp'
 
 class StockExchangeSim::Portfolio
+  include Celluloid
+
   attr_accessor :session_id, :stocks, :money
 
   def initialize(session_id)
