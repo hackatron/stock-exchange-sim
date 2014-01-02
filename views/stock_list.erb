@@ -1,0 +1,18 @@
+<% if stocks.empty? %>
+  <p>No stocks</p>
+<% else %>
+  <table>
+    <tr>
+      <th>Symbol</th>
+      <th># of shares</th>
+      <th>Price</th>
+    </tr>
+    <% stocks.each do |symbol, stock| %>
+      <tr>
+        <td><%= symbol %></td>
+        <td class="number"><%= stock[:shares] %></td>
+        <td class="number"><%= stock[:price] %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

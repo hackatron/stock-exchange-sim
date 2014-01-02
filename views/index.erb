@@ -1,0 +1,22 @@
+<h2>Stocks</h2>
+<%= erb :stock_list, locals: { stocks: @market.stocks } %>
+
+<h2>Your portfolio</h2>
+<%= erb :stock_list, locals: { stocks: @portfolio.stocks } %>
+
+<h2>New order</h2>
+<form action="/orders" method="post" enctype="application/json">
+  <select name="order_type">
+    <option value="buy">Buy</option>
+    <option value="sell">Sell</option>
+  </select>
+  <input type="text" name="stock_symbol" value="STOCK">
+  <input type="text" name="quantity" value="100">
+  <input type="text" name="price" value="100">
+  <input type="submit" value="Send">
+</form>
+
+<h2>Updates</h2>
+<div id="msgs"></div>
+
+<script src="/app.js"></script>

@@ -49,7 +49,7 @@ class StockExchangeSim::Market
     end
   end
 
-  def status
+  def to_s
     "Portfolios: #{PP.pp(portfolios, '')}\nStocks: #{PP.pp(stocks, '')}\nTransactions: #{PP.pp(transactions, '')}\nOrder book: #{PP.pp(order_book, '')}"
   end
 end

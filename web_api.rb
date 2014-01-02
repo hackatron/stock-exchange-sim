@@ -8,36 +8,40 @@ class WebApi < Sinatra::Base
   configure do
     set :sim_node, DCell::Node['sim']
     enable :static, :sessions
-    set :public_folder, File.join(File.dirname(__FILE__), '..', 'public')
     set :server, 'thin'
 
     mime_type :text, 'text/plain'
   end
 
+  before do
+    @market = settings.sim_node[:market]
+    @portfolio = @market.create_portfolio(session.id)
+  end
+
   get '/' do
-    File.read(File.join(settings.public_folder, 'index.html'))
+    erb :index
   end
 
   get '/market' do
     content_type :text
-    settings.sim_node[:market].status
+    @market.to_s
   end
 
-  get '/nodes/all' do
+  get '/nodes' do
     content_type :text
     PP.pp(DCell::Node.all, '')
   end
 
-  get '/nodes/:id/actors' do |id|
+  get '/nodes/:id' do |id|
     content_type :text
     PP.pp(DCell::Node[id].actors, '')
   end
 
   post '/orders' do
-    if settings.sim_node[:market].send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'], session.id)
+    if @market.send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'], session.id)
       redirect to('/?ok')
     else
-      File.read(File.join(settings.public_folder, 'index.html'))
+      erb :index
     end
   end
 end

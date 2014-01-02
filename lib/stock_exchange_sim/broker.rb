@@ -1,5 +1,3 @@
-DCell.setup id: 'sim'
-
 class StockExchangeSim::Broker
   include Celluloid
   include Celluloid::Notifications
@@ -19,7 +17,6 @@ class StockExchangeSim::Broker
       @socket.close
       terminate
     end
-    @socket << DCell::Node['sim'][:market].create_portfolio(session_id).to_s
     subscribe('market_order', :notify_market_update)
     subscribe('market_trade', :notify_market_update)
   end

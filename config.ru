@@ -1,2 +1,2 @@
-require './lib/web_api'
+require './web_api'
 run WebApi
