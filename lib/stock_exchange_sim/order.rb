@@ -25,6 +25,17 @@ class StockExchangeSim::Order
     [session_id, time, order_type.upcase, stock_symbol, price, quantity].join("\t")
   end
 
+  def to_h
+    {
+      session_id: session_id,
+      time: time,
+      order_type: order_type.upcase,
+      stock_symbol: stock_symbol,
+      price: price,
+      quantity: quantity
+    }
+  end
+
   def match?(other)
     price_match = if order_type == :buy && other.order_type == :sell
       price >= other.price

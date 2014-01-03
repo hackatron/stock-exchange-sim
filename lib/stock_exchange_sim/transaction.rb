@@ -11,4 +11,11 @@ class StockExchangeSim::Transaction
   def to_s
     [buy_order, sell_order].join("\t")
   end
+
+  def to_h
+    {
+      buy_order: buy_order.to_h,
+      sell_order: sell_order.to_h
+    }
+  end
 end

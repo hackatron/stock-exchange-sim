@@ -1,3 +1,5 @@
+require 'json'
+
 class StockExchangeSim::Broker
   include Celluloid
   include Celluloid::Notifications
@@ -21,9 +23,9 @@ class StockExchangeSim::Broker
     subscribe('market_trade', :notify_market_update)
   end
 
-  def notify_market_update(topic, object)
-    info "Received notification: #{topic}, #{object}"
-    @socket << topic
+  def notify_market_update(topic, data)
+    info "Received notification: #{topic}, #{data}"
+    @socket << JSON.generate({ topic: topic, data: data.to_h })
   rescue Exception => e
     info 'Market client disconnected'
     info e.inspect
