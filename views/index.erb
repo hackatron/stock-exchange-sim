@@ -5,7 +5,7 @@
 <%= erb :stock_list, locals: { stocks: @portfolio.stocks } %>
 
 <h2>New order</h2>
-<form action="/orders" method="post" enctype="application/json">
+<form id="new_order" action="/orders" method="post" enctype="application/json">
   <select name="order_type">
     <option value="buy">Buy</option>
     <option value="sell">Sell</option>
@@ -19,4 +19,6 @@
 <h2>Updates</h2>
 <div id="msgs"></div>
 
-<script src="/app.js"></script>
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/websocket.js"></script>

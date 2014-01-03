@@ -38,10 +38,6 @@ class WebApi < Sinatra::Base
   end
 
   post '/orders' do
-    if @market.send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'], session.id)
-      redirect to('/?ok')
-    else
-      erb :index
-    end
+    @market.send(params['order_type'], params['stock_symbol'], params['quantity'], params['price'], session.id)
   end
 end
